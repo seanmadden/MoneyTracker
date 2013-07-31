@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block Content %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>
+                User
+            </th>
+            <th>
+                For
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Date
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for trans in transactions %}
+            <tr>
+                <td>
+                    {{ trans.user }}
+                </td>
+                <td>
+                    {{ trans.transaction_type }}
+                </td>
+                <td>
+                    {{ trans.description }}
+                </td>
+                <td>
+                    {{ trans.amount }}
+                </td>
+                <td>
+                    {{ trans.date }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

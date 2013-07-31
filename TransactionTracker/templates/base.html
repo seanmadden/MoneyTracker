@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="{{ MEDIA_URL }}bootstrap.min.js"></script>
+    <link rel='stylesheet' href="{{ MEDIA_URL }}bootstrap.min.css" media="screen"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Payment Tracker</title>
+</head>
+<body>
+
+    <div class="navbar navbar-static-top navbar-inverse">
+        <div class="container">
+            <a href="../" class="navbar-brand">Payment Tracker</a>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="../">Home</a>
+                </li>
+                <li>
+                    <a href="{% url "view" %}">View Transactions</a>
+                </li>
+                <li>
+                    <a href="{% url "add" %}">Add Transaction</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class='container '>
+        {% block Content %}
+
+        {% endblock Content %}
+    </div>
+
+
+</body>
+</html>
