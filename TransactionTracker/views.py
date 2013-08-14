@@ -10,32 +10,23 @@ from TransactionTracker.models import transaction, transaction_type
 def home(request):
 
     transactions = transaction.objects.all()
-    sean_trans = transactions.filter(user=User.objects.get(username="Sean"))
-    tom_trans = transactions.filter(user=User.objects.get(username="Tom"))
 
-    s_owed = 0
-    t_owed = 0
-    s_paid = 0
-    t_paid = 0
+    users = {1: {'paid': 0, 'owed': 0},
+             2: {'paid': 0, 'owed': 0}}
 
-    for trans in sean_trans:
-        s_owed += trans.amount * trans.transaction_type.multiplier
-        s_paid += trans.amount
+    for trans in transactions:
+        if not trans.user.username in users:
+            users[trans.user.username] = {'paid': 0, 'owed': 0}
 
-    s_tot = s_paid - s_owed
+        users[trans.user.username]['paid'] += trans.amount
+        users[trans.user.username]['owed'] += trans.amount * trans.transaction_type.multiplier
 
-    for trans in tom_trans:
-        t_owed += trans.amount * trans.transaction_type.multiplier
-        t_paid += trans.amount
+    u2sum = users['Tom']['owed']
+    u1sum = users['Sean']['owed']
 
-    t_tot = t_paid - t_owed
+    users['diff'] = u1sum - u2sum
 
-    money = {
-        't_tot': t_tot,
-        's_tot': s_tot,
-        'diff': t_tot - s_tot,
-    }
-
+    money = users
 
     return render(request, 'home.html', {"money": money})
 
