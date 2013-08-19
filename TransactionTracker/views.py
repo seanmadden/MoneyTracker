@@ -1,5 +1,5 @@
 # Create your views here.
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.contrib.auth.models import User
 import datetime
 
@@ -7,7 +7,17 @@ from TransactionTracker.forms import EntryForm
 from TransactionTracker.models import transaction, transaction_type
 
 
+def debt(request):
+    return render(request, 'debt.html')
+
+
+def transactions(request):
+    return render(request, 'transactions.html')
+
+
 def home(request):
+
+    return render(request, 'index.html')
 
     transactions = transaction.objects.all()
 
