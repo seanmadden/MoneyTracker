@@ -44,13 +44,13 @@
 
 <div class='text-center'>
     <ul class='pagination'>
-        <li><a>&laquo;</a></li>
-        <li ng-repeat="pageNum in [] | range:numberOfRecords/pageSize"
-            ng-class="{active: transList.meta.offset == pageNum}"
+        <li><a ng-click="PreviousPage()">&laquo;</a></li>
+        <li ng-repeat="pageNum in [] | range:numberOfPages"
+            ng-class="{active: transList.meta.offset/pageSize == pageNum}"
             ng-click="GoToPage({{ pageNum }})">
             <a>{{ pageNum + 1 }}</a>
         </li>
-        <li><a>&raquo;</a></li>
+        <li><a ng-click="NextPage()">&raquo;</a></li>
     </ul>
 </div>
 {% endverbatim %}
