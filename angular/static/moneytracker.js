@@ -1,4 +1,4 @@
-var moneytracker = angular.module("moneytracker", ['ngResource', 'moneyServices']);
+var moneytracker = angular.module("moneytracker", ['ngResource', 'ngRoute', 'moneyServices']);
 
 moneytracker.config(['$routeProvider',
 	function($routeProvider){
@@ -13,15 +13,20 @@ moneytracker.config(['$routeProvider',
 				controller: 'transactionController',
 				templateUrl: 'transactions/',
 				resolve: {
-					loadData: function(transactionResource) {
-						return transactionResource.getTransList().promise;
+					transactions: function(transactionResource) {
+						return transactionResource.getResource().get().$promise;
 					}
 				}
 			})
 			.when('/add',
 			{
 				controller: 'addController',
-				templateUrl: 'add/'
+				templateUrl: 'add/',
+				resolve: {
+					userList: function(userResource) {
+						return userResource.getResource().get().$promise;
+					}
+				}
 			})
 			.otherwise({
 				redirectTo: '/'
@@ -34,19 +39,21 @@ moneytracker.controller('debtController', function($scope) {
 
 });
 
-moneytracker.controller('addController', function($scope) {
+moneytracker.controller('addController',
+	function addController($scope, userList) {
+
+		$scope.userList = userList.objects;
+
+		//default to the first option
+		$scope.selectedUser = $scope.userList[0];
 
 });
 
-var transactionController = moneytracker.controller('transactionController', function($scope, $resource) {
+moneytracker.controller('transactionController',
+	function transactionController($scope, $resource, transactions) {
 
-//	init();
-	$scope.transResource = $resource('/api/v1/transaction');
-//	$scope.transactions = transactions;
-
-	function init() {
-		$scope.transList = $resource('/api/v1/transaction').get(parseResource);
-	}
+	$scope.transList = transactions;
+	parseResource();
 
 	$scope.NextPage = function() {
 		$scope.transList = $resource($scope.nextLink).get(parseResource);
@@ -72,10 +79,6 @@ var transactionController = moneytracker.controller('transactionController', fun
 
 });
 
-
-
-//moneytracker.controller('transactionController', transactionController);
-
 moneytracker.filter('range', function() {
 	return function(input, total) {
 		total = parseInt(total);
@@ -87,11 +90,20 @@ moneytracker.filter('range', function() {
 
 
 angular.module('moneyServices', ['ngResource'])
+	.factory('userResource', function($resource) {
+		var userResource = $resource('/api/v1/user');
+
+		userResource.prototype.getResource = function() {
+			return userResource;
+		};
+
+		return new userResource;
+	})
 	.factory('transactionResource', function($resource) {
 		var transResource = $resource('/api/v1/transaction');
 
-		transResource.prototype.getTransList = function() {
-			return transResource.get();
+		transResource.prototype.getResource = function() {
+			return transResource;
 		};
 
 		return new transResource;

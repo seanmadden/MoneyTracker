@@ -3,26 +3,32 @@
         <div class="form-group">
             <label for="user" class="control-label col-lg-2">User</label>
             <div class=col-lg-2>
-                <input type="text" id="user" />
+                <select id="user" class='form-control' ng-model="selectedUser"
+                        ng-options="item as item.username for item in userList">
+                </select>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="id_type" class="control-label col-lg-2">Type</label>
+            <label for="type" class="control-label col-lg-2">Type</label>
             <div class="col-lg-2">
+                <input type="text" id="type" class="form-control"/>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="id_amount" class="control-label col-lg-2">Amount</label>
+            <label for="amount" class="control-label col-lg-2">Amount</label>
             <div class="col-lg-2">
+                <input type="text" id="amount" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <label for="id_description" class="control-label col-lg-2">Note</label>
+            <label for="description" class="control-label col-lg-2">Note</label>
             <div class="col-lg-2">
+                <input type="text" id="description" class="form-control"/>
                 <button type="submit" class="btn btn-primary" style="margin-top:10px;">Submit</button>
             </div>
         </div>
     </form>
+
 {% endverbatim %}
