@@ -3,30 +3,34 @@
         <div class="form-group">
             <label for="user" class="control-label col-lg-2">User</label>
             <div class=col-lg-2>
-                <select id="user" class='form-control' ng-model="selectedUser"
+                <select id="user" class='form-control' ng-model="trans.user"
                         ng-options="item as item.username for item in userList">
                 </select>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="type" class="control-label col-lg-2">Type</label>
+            <label for="transactionType" class="control-label col-lg-2">Type</label>
             <div class="col-lg-2">
-                <input type="text" id="type" class="form-control"/>
+                <select id="transactionType" class='form-control' ng-model='trans.transaction_type'
+                        ng-options="item as item.description for item in transactionTypes">
+                </select>
             </div>
         </div>
 
         <div class="form-group">
             <label for="amount" class="control-label col-lg-2">Amount</label>
             <div class="col-lg-2">
-                <input type="text" id="amount" class="form-control"/>
+                <input type="text" id="amount" class="form-control" ng-model="trans.amount"/>
             </div>
         </div>
         <div class="form-group">
             <label for="description" class="control-label col-lg-2">Note</label>
             <div class="col-lg-2">
-                <input type="text" id="description" class="form-control"/>
-                <button type="submit" class="btn btn-primary" style="margin-top:10px;">Submit</button>
+                <input type="text" id="description" ng-model="trans.description" class="form-control"/>
+                <button class="btn btn-primary" ng-click='addTransaction()' style="margin-top:10px;">
+                    Submit
+                </button>
             </div>
         </div>
     </form>

@@ -25,6 +25,9 @@ moneytracker.config(['$routeProvider',
 				resolve: {
 					userList: function(userResource) {
 						return userResource.getResource().get().$promise;
+					},
+					transactionTypes: function(transactionTypeResource) {
+						return transactionTypeResource.getResource().get().$promise;
 					}
 				}
 			})
@@ -40,12 +43,26 @@ moneytracker.controller('debtController', function($scope) {
 });
 
 moneytracker.controller('addController',
-	function addController($scope, userList) {
+	function addController($scope, $resource, userList, transactionTypes, $http) {
+
+		$scope.trans = {};
 
 		$scope.userList = userList.objects;
-
 		//default to the first option
-		$scope.selectedUser = $scope.userList[0];
+		$scope.trans.user = $scope.userList[0];
+
+		$scope.transactionTypes = transactionTypes.objects;
+		$scope.trans.transaction_type = $scope.transactionTypes[0];
+
+		$scope.addTransaction = function() {
+//			var transToAdd = $resource('/api/v1/transaction\\/');
+
+//			transToAdd.trans = $scope.trans;
+//			transToAdd.save(transToAdd.trans);
+			$http.post('/api/v1/transaction/', $scope.trans);
+
+
+		}
 
 });
 
@@ -107,4 +124,13 @@ angular.module('moneyServices', ['ngResource'])
 		};
 
 		return new transResource;
+	})
+	.factory('transactionTypeResource', function($resource) {
+		var transactionTypeResource = $resource('/api/v1/transaction_type');
+
+		transactionTypeResource.prototype.getResource = function() {
+			return transactionTypeResource;
+		};
+
+		return new transactionTypeResource;
 	});

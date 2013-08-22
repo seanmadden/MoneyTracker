@@ -5,12 +5,13 @@ from django.contrib import admin
 admin.autodiscover()
 
 from MoneyTracker import settings
-from TransactionTracker.api import TransactionResource, UserResource
+from TransactionTracker.api import TransactionResource, UserResource, TransactionTypeResource
 from tastypie.api import Api
 
 v1_api = Api(api_name='v1')
 v1_api.register(TransactionResource())
 v1_api.register(UserResource())
+v1_api.register(TransactionTypeResource())
 
 urlpatterns = patterns('',
     # Examples:
