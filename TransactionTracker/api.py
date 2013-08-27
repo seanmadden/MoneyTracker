@@ -10,7 +10,8 @@ class UserResource(ModelResource):
         queryset = User.objects.all()
         resource_name = 'user'
         fields = ['username', 'id']
-        allowed_methods = ['get']
+        # allowed_methods = ['get']
+        authorization = Authorization()
 
 
 class TransactionTypeResource(ModelResource):
@@ -18,6 +19,7 @@ class TransactionTypeResource(ModelResource):
         queryset = transaction_type.objects.all()
         resource_name = 'transaction_type'
         fields = ['description', 'id']
+        authorization = Authorization()
 
 
 class TransactionResource(ModelResource):

@@ -1,3 +1,4 @@
+import datetime
 import django
 from django.db import models
 from tastypie.utils.timezone import now
@@ -23,5 +24,14 @@ class transaction(Model):
     amount = django.db.models.DecimalField(max_digits=12, decimal_places=2)
     transaction_type = django.db.models.ForeignKey(transaction_type)
     user = django.db.models.ForeignKey(User)
+
+    def __unicode__(self):
+        return self.description
+
+    def save(self, *args, **kwargs):
+        if not self.date:
+            self.date = datetime.date.today()
+
+        return super(transaction, self).save(*args, **kwargs)
 
 admin.site.register(transaction_type)
