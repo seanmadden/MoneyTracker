@@ -1,7 +1,11 @@
-var moneytracker = angular.module("moneytracker", ['ngResource', 'ngRoute', 'moneyServices']);
+var moneytracker = angular.module("moneytracker", ['ngResource', 'ngRoute', 'moneyServices', 'ngCookies']);
 
 moneytracker.config(['$routeProvider',
 	function($routeProvider){
+
+//		$httpProvider.defaults.xsrfCookieName = 'csrftoken';
+//		$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+
 		$routeProvider
 			.when('/',
 			{
@@ -37,6 +41,12 @@ moneytracker.config(['$routeProvider',
 	}
 ]);
 
+moneytracker.config(['$httpProvider',
+	function($httpProvider) {
+		$httpProvider.defaults.headers.common['X-CSRFToken'] = $('input[name="csrfmiddlewaretoken"]').val();
+	}
+]);
+
 moneytracker.controller('debtController', function($scope) {
 
 
@@ -46,6 +56,7 @@ moneytracker.controller('addController',
 	function addController($scope, $resource, userList, transactionTypes, $http) {
 
 		$scope.trans = {};
+		$scope.isDisabled = false;
 
 		$scope.userList = userList.objects;
 		//default to the first option
@@ -55,10 +66,8 @@ moneytracker.controller('addController',
 		$scope.trans.transaction_type = $scope.transactionTypes[0];
 
 		$scope.addTransaction = function() {
-//			var transToAdd = $resource('/api/v1/transaction\\/');
 
-//			transToAdd.trans = $scope.trans;
-//			transToAdd.save(transToAdd.trans);
+			$scope.isDisabled = true;
 			$http.post('/api/v1/transaction/', $scope.trans);
 
 

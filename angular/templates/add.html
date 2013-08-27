@@ -1,5 +1,6 @@
-{% verbatim %}
     <form class="form-horizontal">
+{#        {% csrf_token %}#}
+    {% verbatim %}
         <div class="form-group">
             <label for="user" class="control-label col-lg-2">User</label>
             <div class=col-lg-2>
@@ -28,7 +29,7 @@
             <label for="description" class="control-label col-lg-2">Note</label>
             <div class="col-lg-2">
                 <input type="text" id="description" ng-model="trans.description" class="form-control"/>
-                <button class="btn btn-primary" ng-click='addTransaction()' style="margin-top:10px;">
+                <button class="btn btn-primary" ng-click='addTransaction()' ng-disabled="isDisabled" style="margin-top:10px;">
                     Submit
                 </button>
             </div>
